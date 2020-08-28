@@ -176,9 +176,17 @@ class BasePlugin:
 
         if Devices[2].nValue == 1:
             Devices[2].Update(nValue = 0,sValue = "0")
+            for idx in self.Blindsclosers:
+                DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
+            for idx in self.Blindsopeners:
+                DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
 
         if Devices[3].nValue == 1:
             Devices[3].Update(nValue = 0,sValue = "0")
+            for idx in self.Blindsclosers:
+                DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
+            for idx in self.Blindsopeners:
+                DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
 
 
 
