@@ -17,7 +17,7 @@ Version:    0.0.1: alpha
         <param field="Username" label="Username" width="200px" required="false" default=""/>
         <param field="Password" label="Password" width="200px" required="false" default=""/>
         <param field="Mode1" label="Closer switch Idx (csv list of idx)" width="200px" required="true" default=""/>
-        <param field="Mode2" label="Closer switch Idx (csv list of idx)" width="200px" required="true" default=""/>
+        <param field="Mode2" label="Opener switch Idx (csv list of idx)" width="200px" required="true" default=""/>
         <param field="Mode6" label="Logging Level" width="200px">
             <options>
                 <option label="Normal" value="Normal"  default="true"/>
@@ -56,7 +56,7 @@ class BasePlugin:
 
         self.debug = False
         self.Blindsclosers = []
-        self.Blindslopeners = []
+        self.Blindsopeners = []
         self.posvr = 0
         self.loglevel = None
         self.statussupported = True
@@ -117,8 +117,8 @@ class BasePlugin:
         # build lists of alarm sensors
         self.Blindsclosers = parseCSV(Parameters["Mode1"])
         Domoticz.Debug("Blind closers idx = {}".format(self.Blindsclosers))
-        self.Blindslopeners = parseCSV(Parameters["Mode1"])
-        Domoticz.Debug("Blind closers idx = {}".format(self.Blindslopeners))
+        self.Blindsopeners = parseCSV(Parameters["Mode2"])
+        Domoticz.Debug("Blind openers idx = {}".format(self.Blindsopeners))
 
 
     def onStop(self):
@@ -147,7 +147,7 @@ class BasePlugin:
 
             elif (Devices[2].sValue == "20"):
                 Devices[2].Update(nValue = 1,sValue = "20")
-                for idx in self.Blindslopeners:
+                for idx in self.Blindsopeners:
                     DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=On".format(idx))
                     Domoticz.Debug("manual command - Open")
 
@@ -162,7 +162,7 @@ class BasePlugin:
 
                 elif (Devices[3].sValue == "20"):
                     Devices[3].Update(nValue = 1,sValue = "20")
-                    for idx in self.Blindslopeners:
+                    for idx in self.Blindsopeners:
                         DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=On".format(idx))
                         Domoticz.Debug("Auto command - Open")
 
