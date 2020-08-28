@@ -141,30 +141,38 @@ class BasePlugin:
             Devices[2].Update(nValue = 1,sValue = str(Level))
             if (Devices[2].sValue == "10"):
                 Devices[2].Update(nValue = 1,sValue = "10")
+                for idx in self.Blindsopeners:
+                    DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
                 for idx in self.Blindsclosers:
                     DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=On".format(idx))
-                    Domoticz.Debug("manual command - Close")
+                Domoticz.Debug("manual command - Close")
 
             elif (Devices[2].sValue == "20"):
                 Devices[2].Update(nValue = 1,sValue = "20")
+                for idx in self.Blindsclosers:
+                    DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
                 for idx in self.Blindsopeners:
                     DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=On".format(idx))
-                    Domoticz.Debug("manual command - Open")
+                Domoticz.Debug("manual command - Open")
 
         if (Unit == 3):
             Devices[3].Update(nValue = 1,sValue = str(Level))
             if Devices[1].nValue == 1:
                 if (Devices[3].sValue == "10"):
                     Devices[3].Update(nValue = 1,sValue = "10")
+                    for idx in self.Blindsopeners:
+                        DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
                     for idx in self.Blindsclosers:
                         DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=On".format(idx))
-                        Domoticz.Debug("Auto command - Close")
+                    Domoticz.Debug("Auto command - Close")
 
                 elif (Devices[3].sValue == "20"):
                     Devices[3].Update(nValue = 1,sValue = "20")
+                    for idx in self.Blindsclosers:
+                        DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
                     for idx in self.Blindsopeners:
                         DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=On".format(idx))
-                        Domoticz.Debug("Auto command - Open")
+                    Domoticz.Debug("Auto command - Open")
 
 
     def onHeartbeat(self):
@@ -176,19 +184,9 @@ class BasePlugin:
 
         if Devices[2].nValue == 1:
             Devices[2].Update(nValue = 0,sValue = "0")
-            for idx in self.Blindsclosers:
-                DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
-            for idx in self.Blindsopeners:
-                DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
 
         if Devices[3].nValue == 1:
             Devices[3].Update(nValue = 0,sValue = "0")
-            for idx in self.Blindsclosers:
-                DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
-            for idx in self.Blindsopeners:
-                DomoticzAPI("type=command&param=switchlight&idx={}&switchcmd=Off".format(idx))
-
-
 
     def WriteLog(self, message, level="Normal"):
 
